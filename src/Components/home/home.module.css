@@ -1,0 +1,168 @@
+.searchSection {
+    width: 100%;
+    padding: 15px 0;
+    display: flex;
+    justify-content: center;
+    background-color: #f9f9f9; 
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  }
+  
+  .searchSection input {
+    width: 50%;
+    padding: 12px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+    outline: none;
+    transition: border-color 0.3s ease;
+  }
+  
+  .searchSection input:focus {
+    border-color: #8c0000; 
+  }
+  
+.mainDiv {
+    display: flex;
+    gap: 2rem;
+    padding: 20px;
+    background-color: #f5f5f5;
+}
+
+/* Left section for filters */
+.leftSection {
+    flex: 1;
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    height: fit-content;
+}
+
+.leftSectionMain {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.filterSection,
+.selectSection {
+    padding-bottom: 10px;
+}
+
+h3 {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+/* Range slider styling */
+input[type="range"] {
+    width: 100%;
+    margin-top: 5px;
+    background-color: #ddd;
+}
+
+input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+label {
+    font-size: 1rem;
+    color: #555;
+}
+
+.filterSection p,
+.selectSection p {
+    font-size: 1rem;
+    color: #555;
+    margin: 5px 0;
+}
+
+/* Right section for product cards */
+.rightSection {
+    flex: 3;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 15px;
+}
+
+/* Product card styling */
+.mainCard {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.2s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 350px;
+}
+
+.mainCard:hover {
+    transform: scale(1.03);
+}
+
+.imageSection img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.textSection {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-grow: 1;
+    gap: 8px;
+}
+
+/* Ensuring text grows and button stays at the bottom */
+.textSection p {
+    font-size: 0.9rem;
+    color: #555;
+    line-height: 1.3;
+    margin: 0;
+    flex-grow: 1; /* This allows the description to grow */
+}
+
+.textSection p b {
+    color: #333;
+    font-size: 1rem;
+}
+
+/* Button stays at the bottom */
+button {
+    background-color: #007bff;
+    color: white;
+    padding: 8px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: auto; /* Ensures button stays at the bottom */
+    align-self: flex-start;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .mainDiv {
+        flex-direction: column;
+    }
+
+    .rightSection {
+        grid-template-columns: 1fr;
+    }
+
+    .mainCard {
+        height: auto;
+    }
+}
