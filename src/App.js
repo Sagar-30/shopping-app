@@ -4,6 +4,7 @@ import Login from './Components/login/login.js';
 import Signup from "./Components/login/signup.js"
 import AppContext from "./AppContext.js"
 import Home from "./Components/home/home.js"
+import Cart from './Components/cart/cart.js';
 
 function App() {
 
@@ -11,7 +12,8 @@ function App() {
     {path: "/", element: <Header />, children:[
       {path: "/", element:<Home />},
       {path: "/login", element:<Login />},
-      {path: "/signup", element:<Signup />}
+      {path: "/signup", element:<Signup />},
+      {path: "/cart", element:<Cart />}
     ]},])
   return (
     <AppContext>
