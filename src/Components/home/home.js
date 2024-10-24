@@ -1,11 +1,11 @@
 import homeStyle from "./home.module.css";
 import { useValue } from "../../AppContext";
 import { useEffect, useState } from "react";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc, getDocs, onSnapshot, query, setDoc, updateDoc, where } from "firebase/firestore";
 import db from "../../firebaseinit";
 
 export default function Home() {
-    const { allProducts, setAllProducts, Loading, cart , setCart } = useValue();
+    const { allProducts, setAllProducts, Loading, cart, setCart } = useValue();
     const [selectedCategories, setSelectedCategories] = useState([])
     const [rangeValue, setRangeValue] = useState(1200);
     const [category, setCategory] = useState();
@@ -16,7 +16,7 @@ export default function Home() {
             .then(json => { setCategory(json); })
     }, [])
 
-    function handleSearch(e){
+    function handleSearch(e) {
         fetch(`https://fakestoreapi.com/products`)
             .then(res => res.json())
             .then(json => {
@@ -60,22 +60,50 @@ export default function Home() {
             });
     }
 
-    async function handleCart(item){
-        setCart([...cart,item]);
-        const data = {...item,qty:1}
-        await addDoc(collection(db, "cart"), data);
+    async function handleCart(item) {
+        setCart([...cart, item]);
+        const data = { ...item, qty: 1 }
+
+        const cartRef = collection(db, "cart");
+        const q = query(cartRef, where("id", "==", item.id));
+
+        const snapshot = await getDocs(q);
+
+
+        if (!snapshot.empty) {
+            
+            const ID = item.id.toString();
+            const cartDocRef = doc(db, "cart", ID);
+            const docSnap = await getDoc(cartDocRef);
+            
+            let qty = (docSnap.data().qty) + 1;
+            console.log("Already exist",qty);
+            await updateDoc(cartDocRef, {
+                "qty": (docSnap.data().qty)+ 1,
+            });
+
+        } else {
+            async function saveDataToDb(data) {
+                const customId = data.id.toString();
+                await setDoc(doc(db, "cart", customId), data)
+            }
+            saveDataToDb(data);
+            console.log("data Saved", data.id)
+        }
+
     }
+
 
     return (
         <>
             {Loading ?
                 <div className={homeStyle.loaderContainer}>
-                <div className={homeStyle.ldsRoller}>
-                  <div></div><div></div><div></div><div></div>
-                  <div></div><div></div><div></div><div></div>
+                    <div className={homeStyle.ldsRoller}>
+                        <div></div><div></div><div></div><div></div>
+                        <div></div><div></div><div></div><div></div>
+                    </div>
                 </div>
-              </div>
-              :
+                :
                 <>
                     <div className={homeStyle.searchSection}>
                         <input type="text" placeholder="Search By Name" onChange={(e) => handleSearch(e)} />
@@ -109,7 +137,7 @@ export default function Home() {
                                     <section className={homeStyle.textSection}>
                                         <p>{item.title}</p>
                                         <p><b>&#8377; {item.price}</b></p>
-                                        <button onClick={()=>handleCart(item)}>Add To Cart</button>
+                                        <button onClick={() => handleCart(item)}>Add To Cart</button>
                                     </section>
                                 </div>
                             ))}
